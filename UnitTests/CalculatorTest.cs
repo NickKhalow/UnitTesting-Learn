@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using UnitTestingLearn.Calculators;
 using Xunit;
 
@@ -12,6 +13,7 @@ public class CalculatorTest
     public void Example()
     {
         Assert.Equal(0, new BrokenCalculator().Add(0, 0));
+        Assert.Equal(20, new BrokenCalculator().Add(10, 10));
     }
 
 
@@ -30,7 +32,7 @@ public class CalculatorTest
     [ClassData(typeof(TestDataGenerator))]
     public void Subtract(int left, int right)
     {
-        Assert.Equal(0, new BrokenCalculator().Subtract(left, right));
+        Assert.Equal(left - right, new BrokenCalculator().Subtract(left, right));
     }
     
     public class TestDataGenerator : IEnumerable<object[]>
@@ -41,7 +43,11 @@ public class CalculatorTest
             new object[] {0, 0}
         };
 
-        public IEnumerator<object[]> GetEnumerator() => _data.GetEnumerator();
+        public IEnumerator<object[]> GetEnumerator()
+        {
+            return _data.GetEnumerator();
+        }
+
 
         IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
     }
